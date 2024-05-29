@@ -6,19 +6,25 @@ const Index = () => {
   const [timerOn, setTimerOn] = useBoolean(false);
   const [showRope, setShowRope] = useState(false);
   const [splits, setSplits] = useState([]);
+  const [intervalId, setIntervalId] = useState(null);
 
   const startTimer = () => {
     setTimerOn.on();
+    const interval = setInterval(() => {
+      setTime(prevTime => prevTime + 1);
+    }, 1000);
     setShowRope(true);
+    setIntervalId(interval);
   };
 
   const stopTimer = () => {
+    clearInterval(intervalId);
     setTimerOn.off();
     setShowRope(false);
   };
 
   const resetTimer = () => {
-    stopTimer();
+    clearInterval(intervalId);
     setTime(0);
     setSplits([]);
     setShowRope(false);
